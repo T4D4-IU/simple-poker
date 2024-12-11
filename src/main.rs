@@ -46,4 +46,29 @@ fn main() {
     for (i, card) in hand.iter().enumerate() {
         println!("{:}: {:?} {:}", i+1, card.suit, card.rank);
     }
+
+    println!("入れ替えたいカードの番号を入力してください。");
+    // ユーザーからの入力を受け取る
+    let mut input = String::new();
+    // ユーザーからの入力を変数に格納
+    std::io::stdin().read_line(&mut input).unwrap();
+
+    //扱いやすいようにVecに変換
+    let numbers:Vec<usize> = input
+        .split_whitespace() // 文字列を空白区切りで分割
+        .map(|x|x.parse().unwrap()) // 文字列を数値に変換
+        .collect::<Vec<usize>>(); // Vecに変換
+
+    // 与えられた数字のカードを入れ替える
+    for number in numbers {
+        hand[number-1] = deck.pop().unwrap();
+    }
+    // 手札をソート
+    hand.sort_by(|a,b| a.rank.cmp(&b.rank));
+
+    // 手札を表示
+    println!("--- Hand ---");
+    for (i, card) in hand.iter().enumerate() {
+        println!("{:}: {:?} {:}", i+1, card.suit, card.rank);
+    }
 }
